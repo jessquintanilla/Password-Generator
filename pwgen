@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+import random, string, sys
+
+class pwgenerator():
+
+    def getWord(self, caps):
+        lines = open('words.txt').read().splitlines()
+        word = random.choice(lines)
+        result = lambda x : word.capitalize() if caps else word
+        return(result(word))
+
+    def makePassword(self, w, c, s, n, u):
+        pw = []
+        w = w - u
+        for i in range(0, w):
+            pw.append(self.getWord(False))
+        for i in range(0, s):
+            pw.append(random.choice(string.punctuation))
+        for i in range(0, n):
+            pw.append(random.choice(string.digits))
+        for i in range(0, u):
+            pw.append(self.getWord(True))
+        for i in range(0, c):
+            pw.append(random.choice(string.ascii_letters))
+        random.shuffle(pw)
+        password = ''.join(map(str, pw))
+        print(password)
+
+    def help(self):
+        print("usage: pwgen [-h] [-w WORDS] [-u UPPERCASE] [-n NUMBERS] [-s SYMBOLS] [-c CHARACTERS]\n" +
+            "                \n" +
+            "Generate a secure, memorable password\n" +
+            "                \n" +
+            "optional arguments:\n" +
+            "    -h, --help            show this help message and exit\n" +
+            "    -w WORDS, --words WORDS\n" +
+            "                          include WORDS words in the password (default=0)\n" +
+            "    -u UPPERCASE, --uppercase UPPERCASE\n" +
+            "capitalize the first letter of CAPS random words\n" +
+            "                          (default=0)\n" +
+            "    -n NUMBERS, --numbers NUMBERS\n" +
+            "                          insert NUMBERS random numbers in the password\n" +
+            "                          (default=0)\n" +
+            "    -s SYMBOLS, --symbols SYMBOLS\n" +
+            "                          insert SYMBOLS random symbols in the password\n" +
+            "                          (default=0)\n" +
+            "    -c CHARACTERS, --characters CHARACTERS\n" +
+            "                          insert CHARACTERS random symbols in the password\n")
+        return
+
+    def run(self):
+        c = 0; s = 0; n = 0; u = 0; w = 0
+        for i in range(1, len(sys.argv)):
+            if sys.argv[i] == ("-w") or sys.argv[i] == ("--words"):
+                w = int(sys.argv[i + 1])
+            elif sys.argv[i] == ("-c") or sys.argv[i] == ("--characters"):
+                c = int(sys.argv[i + 1])
+            elif sys.argv[i] == ("-s") or sys.argv[i] == ("--symbols"):
+                s = int(sys.argv[i + 1])
+            elif sys.argv[i] == ("-n") or sys.argv[i] == ("--numbers"):
+                n = int(sys.argv[i + 1])
+            elif sys.argv[i] == ("-u") or sys.argv[i] == ("--uppercase"):
+                u = int(sys.argv[i + 1])
+            elif sys.argv[i] == ("-h") or sys.argv[i] == ("--help"):
+                self.help()
+                return
+        self.makePassword(w,c,s,n,u)
+
+pw = pwgenerator()
+pw.run()
