@@ -1,5 +1,8 @@
 # Password-Generator
 Generate awesome and memorable passwords!
+usage: pwgen
+generate a sec pass
+opt
 
 usage: pwgen [-h] [-w WORDS] [-u UPPERCASE] [-n NUMBERS] [-s SYMBOL] [-c CHARACTERS]
 Generate a secure, memorable password
